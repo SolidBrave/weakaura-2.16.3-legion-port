@@ -5030,11 +5030,11 @@ WeakAuras.event_prototypes = {
             then
               show = false
             else
-              spell, _, icon, startTime, endTime, _, _, interruptible, spellId = WeakAuras.UnitCastingInfo(sourceUnit)
+              spell, _,_, icon, startTime, endTime, _, _, interruptible, spellId = WeakAuras.UnitCastingInfo(sourceUnit)
               if spell then
                 castType = "cast"
               else
-                spell, _, icon, startTime, endTime, _, interruptible, spellId = WeakAuras.UnitChannelInfo(sourceUnit)
+                spell, _,_, icon, startTime, endTime, _, interruptible, spellId = WeakAuras.UnitChannelInfo(sourceUnit)
                 if spell then
                   castType = "channel"
                 end
