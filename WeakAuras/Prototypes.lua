@@ -670,15 +670,30 @@ function WeakAuras.IsSpellKnown(spell, pet)
 end
 
 function WeakAuras.IsSpellKnownIncludingPet(spell)
-  local name
   if (not tonumber(spell)) then
     spell = select(7, GetSpellInfo(spell));
   end
   if (not spell) then
     return false;
   end
+  if (WeakAuras.IsSpellKnown(spell) or WeakAuras.IsSpellKnown(spell, true)) then
+    return true;
+  end
+  -- WORKAROUND brain damage around void eruption
+  -- In shadow form void eruption is overriden by void bolt, yet IsSpellKnown for void bolt
+  -- returns false, whereas it returns true for void eruption
+  -- even more brain damage from downport to legion hardcoded id fall back.
+  local baseSpell;
+  if(spell == 77758 or 1106830) then
+    baseSpell = 106832;
+  end
   
-  return WeakAuras.IsSpellKnown(spell) or WeakAuras.IsSpellKnown(spell, true)
+  if (not baseSpell) then
+    return false;
+  end
+  if (baseSpell ~= spell) then
+    return WeakAuras.IsSpellKnown(baseSpell) or WeakAuras.IsSpellKnown(baseSpell, true);
+  end
 end
 
 function WeakAuras.UnitPowerDisplayMod(powerType)
